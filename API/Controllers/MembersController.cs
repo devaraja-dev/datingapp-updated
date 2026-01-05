@@ -1,16 +1,14 @@
 using API.Data;
 using API.Entities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")] // localhost://5001/api/members
-    [ApiController]
     // Dotnet framework is responsible for creating/ instantiating an new instance
     // of this controller class.
-    public class MembersController(AppDbContext context) : ControllerBase
+    public class MembersController(AppDbContext context) : BaseApiController
     {
         [HttpGet]
         // There are multiple different collections in dotnet,
@@ -22,6 +20,7 @@ namespace API.Controllers
             return members;
         }
 
+        [Authorize]
         [HttpGet("{id}")] // localhost://5001/api/member/bod-id
         // when id is curly brackets - acts as route parameter 
         public async Task<ActionResult<AppUser>> GetMember(string id)
